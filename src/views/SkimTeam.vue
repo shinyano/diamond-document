@@ -1,7 +1,17 @@
 <template>
     <div>
+
         <div style="float: left">
-            <h2>团队名称：{{teamName}} 团队ID：{{team_id}}</h2>
+            <h2>团队名称：{{teamName}}， 团队ID：{{team_id}}</h2>
+        </div>
+        <div style="float: right" v-if="flag==false">
+            <el-button type="primary" icon="el-icon-share" @click="applyInTeam">申请加入</el-button>
+        </div>
+        <div style="float: right" v-if="flag==true">
+            <router-link  :to="{path:'/teamMessage',query: {team_id: this.team_id}}" style="text-decoration: none; ">
+                您已加入该团队：<el-button type="primary" icon="el-icon-house" >进入该团队空间</el-button>
+            </router-link>
+
         </div>
         <br><br>
         <div style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); width: 85%; margin: 0 auto;">
@@ -13,6 +23,7 @@
                 {{this.jianjie}}
             </div>
         </div>
+
         <br>
         <br>
         <div>{{created()}}</div>
@@ -37,15 +48,15 @@
 
             </dl>
             <br>
-            <div style="margin-left:0px;width: 85%" v-if="flag==false">
-                <el-button type="primary" icon="el-icon-share" @click="applyInTeam">申请加入</el-button>
-            </div>
-            <div style="margin-left:0px;width: 85%" v-if="flag==true">
-                <router-link  :to="{path:'/teamMessage',query: {team_id: this.team_id}}" style="text-decoration: none; ">
-                    您已加入该团队：<el-button type="primary" icon="el-icon-house" >进入该团队空间</el-button>
-                </router-link>
+<!--            <div style="margin-left:0px;width: 85%" v-if="flag==false">-->
+<!--                <el-button type="primary" icon="el-icon-share" @click="applyInTeam">申请加入</el-button>-->
+<!--            </div>-->
+<!--            <div style="margin-left:0px;width: 85%" v-if="flag==true">-->
+<!--                <router-link  :to="{path:'/teamMessage',query: {team_id: this.team_id}}" style="text-decoration: none; ">-->
+<!--                    您已加入该团队：<el-button type="primary" icon="el-icon-house" >进入该团队空间</el-button>-->
+<!--                </router-link>-->
 
-            </div>
+<!--            </div>-->
         </div>
 
         <div style="float:left;margin-left:100px;width: 40%;">
@@ -61,6 +72,36 @@
                         <div style="height: 20px"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <br>
+        <div>
+
+            <div id="mydiv1" style="text-align:center; width:100%;">
+                <table style="width: 100%; padding: 0; margin: 0;">
+                    <tr>
+                        <th style="border: 1px solid #C1DAD7; font-size:25px;">文档名称</th>
+                        <th style="border: 1px solid #C1DAD7; font-size:25px;">作者</th>
+                        <!--                        <th style="font-size:25px;">权限</th>-->
+                    </tr>
+                    <tr v-for="item in docList">
+                        <td style="background: #F5FAFA; color: #797268; font-size:20px; " >{{item.title}}</td>
+                        <td style="background: #F5FAFA; color: #797268; font-size:20px;">{{item.creatorName}}</td>
+<!--                        <td style="background: #F5FAFA; color: #797268;font-size:20px; ">-->
+<!--                            <table>-->
+<!--                                <tr >-->
+<!--                                    <td v-if="item.viewed==1" >查看</td>-->
+<!--                                    <td v-if="item.commented==1">评论</td>-->
+<!--                                    <td v-if="item.shared==1">分享</td>-->
+<!--                                    <td v-if="item.modified==1">修改</td>-->
+<!--                                    <td v-if="item.modified==0&&item.shared==0&&item.commented==0&&item.viewed==0" >暂无权限</td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                        </td>-->
+
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -89,6 +130,7 @@
                 userID:1,
                 userName:'lyx',
                 flag:false,
+                docList:null,
             }
         },
         methods: {
@@ -97,7 +139,7 @@
             },
             created(){
                 const _this=this;
-                axios.get('http://localhost:8088/team/'+_this.team_id).then(function (resp) {
+                axios.get('http://localhost:8088/team/'+_this.team_id+'/'+_this.userID).then(function (resp) {
                     //console.log(resp.data);
                     //alert(resp.data.teamName)
                     _this.jianjie=resp.data.basicInformation;
@@ -105,6 +147,7 @@
                     _this.creatorId=resp.data.creator;
                     _this.creatorName=resp.data.creatorName;
                     _this.teamName=resp.data.teamName;
+                    _this.docList = resp.data.docs;
                 });
             },
             inOrNot(){

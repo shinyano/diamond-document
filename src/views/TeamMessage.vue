@@ -95,7 +95,7 @@
             },
             created(){
                 const _this=this;
-                axios.get('http://localhost:8088/team/'+_this.team_id).then(function (resp) {
+                axios.get('http://localhost:8088/team/'+_this.team_id+'/'+_this.userID).then(function (resp) {
                      //console.log(resp.data);
                     //alert(resp.data.teamName)
                     _this.jianjie=resp.data.basicInformation;
@@ -111,11 +111,12 @@
             },
             deleteMember(item){
                 const _this=this;
-                alert(item);
-                //按道理应该是可以的，可能因为没有登录，500 以后在测试
+              //  alert(item);
                 axios.get('http://localhost:8088/quit/'+_this.team_id+'/'+item).then(function (resp) {
-                    console.log(resp.data)
+                    //console.log(resp.data);
+
                 })
+                alert("delete success!")
             },
             turnToPage(){
                 this.$router.push({

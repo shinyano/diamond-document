@@ -1,6 +1,7 @@
 <template>
     <div class="collect">
 
+
         <div id="bia">
             <form ref="ruleForm">
                 <span class="ti">文档标题： </span>
@@ -17,9 +18,9 @@
 
                 <div v-if="group" class="hi">
                     <span class="ti">所属团队：</span>
-                    团队名称：{{team_name}}， 团队id：{{team_id}}
-<!--                    <select id="select" >-->
-<!--                        <option v-for="item in team">{{item.id}}.{{item.teamName}}</option>-->
+                    团队名称：{{team_name}}，团队id：{{team_id}}
+<!--                    <select id="select" v-model="word.teamId">-->
+<!--                        <option v-for="item in team" :value="item.id">{{item.id}}.{{item.teamName}}</option>-->
 <!--                    </select>-->
                     <br/>
                 </div>
@@ -133,15 +134,14 @@
         components: { quillEditor},
         data() {
             return {
-                team_id: this.$route.query.team_id,
-                team_name: this.$route.query.team_name,
                 editor: '',
                 name: '',
                 group: false,
                 typeChoose:true,
                 a:[],
                 type:'私人文档',
-
+                team_id: this.$route.query.team_id,
+                team_name:this.$route.query.team_name,
                 serverUrl: 'http://localhost:8088/addImage',  // 这里写你要上传的图片服务器地址
                 team:[],
                 editorOption: {
@@ -168,13 +168,13 @@
                     title:"",
                     content:"",
                     authority:'',
-                    teamID:null,
+                    teamId:null,
                 },
             }
         },
         mounted:function() {
-            this.word.title=this.$route.params.title
-            this.word.detail=this.$route.params.content
+            this.word.title=this.$route.params.information.title
+            this.word.content=this.$route.params.information.content
 
         },
         methods: {
@@ -196,10 +196,11 @@
                 this.typeChoose=true
                 this.type="团队文档"
                 const _this=this
-                this.$ajax.get("http://localhost:8088/myteam/1").then(function (resp) {
-                    _this.team=resp.data
-                    console.log(resp.data)
-                },function (error) {})
+                this.word.teamId=this.team_id
+                // axios.get("http://localhost:8088/myteam/1").then(function (resp) {
+                //     _this.team=resp.data
+                //     console.log(resp.data)
+                // },function (error) {})
             },
             yong(i,j){
                 this.word.title=j
@@ -209,7 +210,8 @@
                 this.quan()
                 if(this.type==='公开文档') this.word.authority=15
                 if(this.word.title==="")  this.word.title="无标题"
-                this.$ajax.post("http://localhost:8088/doc/1",this.word).then(function (resp) {},function (error) {})
+                console.log(this.word)
+                axios.post("http://localhost:8088/doc/1",this.word).then(function (resp) {},function (error) {})
                 alert('submit');
             },
 

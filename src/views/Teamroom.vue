@@ -25,6 +25,18 @@
                                 </el-menu-item>
                             </el-submenu>
                             <el-menu-item  index="/team"><i class="el-icon-folder"></i>团队空间</el-menu-item>
+                            <el-submenu index="4">
+                                <template slot="title"><i class="el-icon-message"></i>消息通知</template>
+                                <el-menu-item index="/messages">
+                                    团队消息
+                                </el-menu-item>
+                                <el-menu-item index="/commentMes">
+                                    评论消息
+                                </el-menu-item>
+<!--                                <el-menu-item index="/inviteMes">-->
+<!--                                    邀请消息-->
+<!--                                </el-menu-item>-->
+                            </el-submenu>
                         </el-menu>
 
                     </div>

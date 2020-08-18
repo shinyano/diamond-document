@@ -17,7 +17,9 @@ import CreateTeam from "../views/CreateTeam";
 import JoinedTeam from "../views/JoinedTeam";
 import SearchTeam from "../views/SearchTeam";
 import SkimTeam from "../views/SkimTeam";
-import MessageTest from "../views/MessageTest";
+import Messages from "../views/Messages";
+import Notification from  "../views/Notification";
+import CommentMes from "../views/CommentMes";
 // import collect from "../views/collect";
 Vue.use(VueRouter)
 
@@ -53,7 +55,6 @@ const routes = [
       },
     ]
   },
-
   {
     path: '/team',
     name: 'Team',
@@ -82,8 +83,6 @@ const routes = [
       }
     ]
   },
-
-
   {
     path: '/teamdesk',
     name: '团队操作台',
@@ -112,9 +111,22 @@ const routes = [
       },]
   },
   {
-    path: '/messageTest',
+    path: '/notification',
     name: '消息通知',
-    component: MessageTest
+    component: Teamroom,
+    //redirect:'/applyMes',
+    children: [
+      {
+        path: '/messages',
+        name: '团队消息',
+        component: Messages
+      },
+      {
+        path: '/commentMes',
+        name: '评论消息',
+        component: CommentMes
+      },
+    ]
   },
   // {
   //   path: '/collect',

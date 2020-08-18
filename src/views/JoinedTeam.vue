@@ -50,7 +50,7 @@
             getAllTeam(){
                 const _this=this;
                 axios.get('http://localhost:8088/myteam/'+_this.userID).then(function (resp) {
-                    console.log(resp.data);
+                    //console.log(resp.data);
                     _this.list=resp.data;
                 })
             }

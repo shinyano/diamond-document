@@ -11,6 +11,7 @@
             <el-container>
                 <el-aside width="200px">
                     <div >
+
 <!--                        <el-menu router>-->
 <!--                            <router-link  :to="{path:'/teamMessage',query: {team_id: this.team_id}}" style="text-decoration: none; ">-->
 <!--                                <el-menu-item > 团队信息</el-menu-item>-->
@@ -44,6 +45,8 @@
                     </div>
                 </el-aside>
                 <el-main>
+                    <el-button type="primary" icon="el-icon-back" style="float: right" @click="turnToPage">返回</el-button>
+                    <br><br>
 <!--                    <div v-for='item in list' >-->
 <!--                        <div  style="float: left;text-align:center;margin:20px 20px;line-height: 2;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);">-->
 <!--                            <div>-->
@@ -108,9 +111,14 @@
                     return item
                 })
             },
-            created(){
-
-            }
+            turnToPage(){
+                this.$router.push({
+                    path:'/mydesk',
+                    query: {
+                        userid:this.userid
+                    }
+                })
+            },
         }
     }
 

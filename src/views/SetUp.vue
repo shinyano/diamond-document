@@ -51,7 +51,7 @@
                 team_id: this.$route.query.team_id,
                 membersName:null,
                 TeamCreatorId:null,
-                userName:'',
+                userName:'lyx',
             }
         },
         methods: {
@@ -109,12 +109,12 @@
             deletedTeam(){
                 const _this=this;
                 axios.delete('http://localhost:8088/deleteTeam/'+_this.team_id).then(function (resp) {
-                    alert('success')
+               //     alert('success')
                 });
             },
             created() {
                 const _this = this;
-                axios.get('http://localhost:8088/team/'+_this.team_id).then(function (resp) {
+                axios.get('http://localhost:8088/team/'+_this.team_id+'/'+_this.userId).then(function (resp) {
                     // console.log(resp.data)
                     _this.membersName = resp.data.membersName;
                     _this.TeamCreatorId = resp.data.creator;
@@ -122,7 +122,7 @@
             },
             quitTeam(){
                 const _this = this;
-                axios.get('http://localhost:8088/quit/1/xiaoming').then(function (resp) {
+                axios.get('http://localhost:8088/quit/'+_this.team_id+'/'+_this.userName).then(function (resp) {
                     alert('success')
                 })
             }
